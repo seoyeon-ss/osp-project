@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>음식 GI 분석</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            text-align:center;
+            margin-top:40px;
+        }
+
+        video{
+            border:2px solid gray;
+            border-radius:10px;
+        }
+
+        img{
+            margin-top:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            margin:10px;
+            cursor:pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>음식 사진 분석</h1>
+
+    <!-- ========================= -->
+    <!-- 1. 카메라 촬영 -->
+    <!-- ========================= -->
+
+    <h2>카메라 촬영</h2>
+
+    <video id="video" width="320" height="240" autoplay></video>
+
+    <br>
+
+    <button onclick="captureImage()">촬영 후 분석</button>
+
+    <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+
+    <form id="cameraForm" action="/predict" method="POST">
+
+        <input type="hidden" name="image" id="imageInput">
+
+    </form>
+
+    <hr width="50%">
+
+    <!-- ========================= -->
+    <!-- 2. 파일 업로드 -->
+    <!-- ========================= -->
+
+    <h2>파일 업로드</h2>
+
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+
+        <input type="file" name="file" accept="image/*">
+
+        <br><br>
+
+        <button type="submit">파일 분석</button>
+
+    </form>
+
+    <script>
+
+        // 카메라 실행
+        const video = document.getElementById("video");
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream){
+            video.srcObject = stream;
+        });
+
+        // 사진 촬영
+        function captureImage(){
+
+            const canvas = document.getElementById("canvas");
+
+            const context = canvas.getContext("2d");
+
+            context.drawImage(video, 0, 0, 320, 240);
+
+            // base64 변환
+            const imageData = canvas.toDataURL("image/png");
+
+            document.getElementById("imageInput").value = imageData;
+
+            document.getElementById("cameraForm").submit();
+        }
+
+    </script>
+
+</body>
+</html>
