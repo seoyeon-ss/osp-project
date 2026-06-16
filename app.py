@@ -10,7 +10,7 @@ from io import BytesIO
 app = Flask(__name__)
 
 # YOLO 모델
-model = YOLO("yolov8n.pt")
+model = YOLO("yolo12n.pt")
 
 # GI 데이터
 db = pd.read_csv("gi_db.csv")
