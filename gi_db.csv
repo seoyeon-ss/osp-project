@@ -1,8 +1,10 @@
-food,gi
-pizza,80
-burger,75
-apple,36
-banana,51
-rice,73
-salad,15
-sandwich,70
+food,display_name,category,calories_kcal,carbohydrate_g,fat_g,protein_g,sugar_g,fiber_g,gi,alternative_food
+pizza,피자,meal,266,33.0,10.0,12.0,3.8,2.3,80,whole_grain_sandwich
+burger,버거,meal,295,30.0,12.0,17.0,6.0,2.0,75,whole_grain_sandwich
+sandwich,샌드위치,meal,240,27.0,7.0,11.0,4.0,3.0,70,whole_grain_sandwich
+rice,쌀밥,grain,168,36.0,0.3,2.7,0.1,0.4,73,brown_rice
+apple,사과,fruit,52,14.0,0.2,0.3,10.4,2.4,36,
+banana,바나나,fruit,89,23.0,0.3,1.1,12.2,2.6,51,
+salad,샐러드,meal,80,6.0,3.0,2.0,2.0,3.0,15,
+brown_rice,현미밥,grain,160,32.0,1.0,3.0,0.4,2.0,50,
+whole_grain_sandwich,통밀 샌드위치,meal,210,24.0,6.0,12.0,3.0,5.0,52,
