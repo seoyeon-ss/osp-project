@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>분석 결과</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 40px auto;
+            max-width: 900px;
+            background-color: #f7f8fb;
+            color: #222;
+        }
+
+        img {
+            border: 2px solid #cccccc;
+            border-radius: 10px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background-color: #2f75b5;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .section {
+            background-color: white;
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .result-card {
+            text-align: left;
+        }
+
+        .result-title {
+            text-align: center;
+        }
+
+        .image-wrap {
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .item {
+            background-color: #f0f4fa;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .label {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .risk-low {
+            color: #2e7d32;
+        }
+
+        .risk-medium {
+            color: #f57c00;
+        }
+
+        .risk-high {
+            color: #c62828;
+        }
+
+        .bar-wrap {
+            margin-top: 12px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 18px;
+            border-radius: 20px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .carb {
+            background-color: #4f81bd;
+        }
+
+        .fat {
+            background-color: #c0504d;
+        }
+
+        .protein {
+            background-color: #9bbb59;
+        }
+
+        .recommend {
+            border-left: 6px solid #2e7d32;
+            background-color: #eef8ef;
+        }
+
+        .error {
+            color: #c62828;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>분석 결과</h1>
+
+    <div class="section result-card">
+        {% if result.error %}
+            <p class="error">{{ result.error }}</p>
+            {% if result.detected_food %}
+                <p>인식된 음식: {{ result.detected_food }}</p>
+            {% endif %}
+        {% endif %}
+
+        {% if result.image_path %}
+            <div class="image-wrap">
+                <img src="/{{ result.image_path }}" width="300" alt="분석 이미지">
+            </div>
+        {% endif %}
+
+        {% if result.nutrition %}
+            <h2 class="result-title">{{ result.nutrition.display_name }} 분석 정보</h2>
+            <p>아래는 인식된 음식의 GI 지수와 영양소 정보입니다.</p>
+
+            <div class="grid">
+                <div class="item">
+                    <div class="label">칼로리</div>
+                    <div class="value">{{ result.nutrition.calories_kcal }} kcal</div>
+                </div>
+
+                <div class="item">
+                    <div class="label">GI 지수</div>
+                    <div class="value">{{ result.nutrition.gi }}</div>
+                </div>
+
+                <div class="item">
+                    <div class="label">GI 위험도</div>
+                    <div class="value {% if result.risk_label == '낮음' %}risk-low{% elif result.risk_label == '보통' %}risk-medium{% else %}risk-high{% endif %}">
+                        {{ result.risk_label }}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="label">당류</div>
+                    <div class="value">{{ result.nutrition.sugar_g }} g</div>
+                </div>
+
+                <div class="item">
+                    <div class="label">식이섬유</div>
+                    <div class="value">{{ result.nutrition.fiber_g }} g</div>
+                </div>
+            </div>
+
+            <p>{{ result.risk_description }}</p>
+
+            <h3>영양소 함량</h3>
+            <div class="grid">
+                <div class="item">
+                    <div class="label">탄수화물</div>
+                    <div class="value">{{ result.nutrition.carbohydrate_g }} g</div>
+                </div>
+
+                <div class="item">
+                    <div class="label">지방</div>
+                    <div class="value">{{ result.nutrition.fat_g }} g</div>
+                </div>
+
+                <div class="item">
+                    <div class="label">단백질</div>
+                    <div class="value">{{ result.nutrition.protein_g }} g</div>
+                </div>
+            </div>
+
+            <h3>탄수화물·지방·단백질 비율</h3>
+
+            <div class="bar-wrap">
+                <div class="bar-label">
+                    <span>탄수화물</span>
+                    <span>{{ result.nutrition.macro_ratio.carbohydrate }}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill carb" style="width: {{ result.nutrition.macro_ratio.carbohydrate }}%;"></div>
+                </div>
+            </div>
+
+            <div class="bar-wrap">
+                <div class="bar-label">
+                    <span>지방</span>
+                    <span>{{ result.nutrition.macro_ratio.fat }}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill fat" style="width: {{ result.nutrition.macro_ratio.fat }}%;"></div>
+                </div>
+            </div>
+
+            <div class="bar-wrap">
+                <div class="bar-label">
+                    <span>단백질</span>
+                    <span>{{ result.nutrition.macro_ratio.protein }}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill protein" style="width: {{ result.nutrition.macro_ratio.protein }}%;"></div>
+                </div>
+            </div>
+
+            {% if result.recommendation %}
+            <div class="section recommend">
+                <h3>낮은 GI 대체 음식 추천</h3>
+                <p>
+                    현재 음식은 GI 지수가 <strong>높음</strong>으로 분류되어 혈당을 빠르게 올릴 수 있습니다.
+                    비슷한 음식 중 GI 지수가 낮은
+                    <strong>{{ result.recommendation.display_name }}</strong>을/를 대체 음식으로 추천합니다.
+                </p>
+
+                <div class="grid">
+                    <div class="item">
+                        <div class="label">추천 음식 칼로리</div>
+                        <div class="value">{{ result.recommendation.calories_kcal }} kcal</div>
+                    </div>
+
+                    <div class="item">
+                        <div class="label">추천 음식 GI</div>
+                        <div class="value risk-low">{{ result.recommendation.gi }}</div>
+                    </div>
+
+                    <div class="item">
+                        <div class="label">탄수화물</div>
+                        <div class="value">{{ result.recommendation.carbohydrate_g }} g</div>
+                    </div>
+
+                    <div class="item">
+                        <div class="label">지방</div>
+                        <div class="value">{{ result.recommendation.fat_g }} g</div>
+                    </div>
+
+                    <div class="item">
+                        <div class="label">단백질</div>
+                        <div class="value">{{ result.recommendation.protein_g }} g</div>
+                    </div>
+
+                    <div class="item">
+                        <div class="label">당류</div>
+                        <div class="value">{{ result.recommendation.sugar_g }} g</div>
+                    </div>
+
+                    <div class="item">
+                        <div class="label">식이섬유</div>
+                        <div class="value">{{ result.recommendation.fiber_g }} g</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <a href="/">다시 분석하기</a>
+    <a href="/history">섭취 기록 보기</a>
+</body>
+</html>

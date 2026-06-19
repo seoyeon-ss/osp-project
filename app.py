@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from datetime import datetime
 from ultralytics import YOLO
 import pandas as pd
 import os
@@ -25,6 +26,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 LOW_GI_MAX = 55
 MEDIUM_GI_MAX = 69
 HIGH_GI_MIN = 70
+HISTORY_FILE_NAME = "intake_history.csv"
 
 
 def get_food_row(food_name):
@@ -114,10 +116,74 @@ def find_low_gi_recommendation(food_row):
     return make_nutrition_info(same_category_low_gi_foods.iloc[0])
 
 
+def save_intake_history(detected_food, nutrition_info, risk_label):
+    """분석된 음식 정보를 CSV 파일에 누적 저장합니다."""
+    now = datetime.now()
+    history_row = {
+        "date": now.strftime("%Y-%m-%d"),
+        "time": now.strftime("%H:%M:%S"),
+        "food": detected_food,
+        "display_name": nutrition_info["display_name"],
+        "gi": nutrition_info["gi"],
+        "risk_label": risk_label,
+        "calories_kcal": nutrition_info["calories_kcal"],
+        "carbohydrate_g": nutrition_info["carbohydrate_g"],
+        "fat_g": nutrition_info["fat_g"],
+        "protein_g": nutrition_info["protein_g"],
+        "sugar_g": nutrition_info["sugar_g"],
+        "fiber_g": nutrition_info["fiber_g"],
+    }
+
+    history_df = pd.DataFrame([history_row])
+    file_exists = os.path.exists(HISTORY_FILE_NAME)
+    history_df.to_csv(
+        HISTORY_FILE_NAME,
+        mode="a",
+        index=False,
+        header=not file_exists,
+        encoding="utf-8-sig",
+    )
+
+
+def load_intake_history():
+    """저장된 섭취 기록을 날짜별로 묶어 화면에 전달할 형태로 만듭니다."""
+    if not os.path.exists(HISTORY_FILE_NAME):
+        return []
+
+    history_df = pd.read_csv(HISTORY_FILE_NAME).fillna("")
+
+    if len(history_df) == 0:
+        return []
+
+    history_df = history_df.sort_values(by=["date", "time"], ascending=[False, False])
+    grouped_history = []
+
+    for date, group in history_df.groupby("date", sort=False):
+        records = group.to_dict("records")
+        average_gi = round(group["gi"].astype(float).mean(), 1)
+        total_calories = round(group["calories_kcal"].astype(float).sum(), 1)
+
+        grouped_history.append({
+            "date": date,
+            "records": records,
+            "average_gi": average_gi,
+            "total_calories": total_calories,
+        })
+
+    return grouped_history
+
+
 # 메인 페이지
 @app.route("/")
 def home():
-    return render_template("index.html", result=None)
+    return render_template("index.html")
+
+
+# 섭취 기록 페이지
+@app.route("/history")
+def history():
+    grouped_history = load_intake_history()
+    return render_template("history.html", grouped_history=grouped_history)
 
 
 # 예측
@@ -145,12 +211,12 @@ def predict():
             file.save(filepath)
         else:
             return render_template(
-                "index.html",
+                "result.html",
                 result={"error": "파일이 선택되지 않았습니다."},
             )
     else:
         return render_template(
-            "index.html",
+            "result.html",
             result={"error": "이미지가 없습니다."},
         )
 
@@ -164,7 +230,7 @@ def predict():
 
     if prediction.probs is None:
         return render_template(
-            "index.html",
+            "result.html",
             result={
                 "image_path": filepath,
                 "error": "현재 모델이 classification 결과를 반환하지 않습니다. -cls 또는 classify로 학습한 best.pt 모델을 사용하세요.",
@@ -190,6 +256,8 @@ def predict():
         risk_label, risk_description = get_gi_risk(nutrition_info["gi"])
         recommendation = find_low_gi_recommendation(food_row)
 
+        save_intake_history(detected_food, nutrition_info, risk_label)
+
         result = {
             "detected_food": detected_food,
             "image_path": filepath,
@@ -202,7 +270,7 @@ def predict():
     # =========================
     # 결과 출력
     # =========================
-    return render_template("index.html", result=result)
+    return render_template("result.html", result=result)
 
 
 # 실행
