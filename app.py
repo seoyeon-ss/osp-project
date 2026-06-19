@@ -155,16 +155,24 @@ def predict():
         )
 
     # =========================
-    # YOLO 예측
+    # YOLO Classification 예측
     # =========================
-    results = model.predict(filepath, conf=0.3)
-    detected_food = "unknown"
-    names = results[0].names
+    # classification 모델은 detection 모델처럼 boxes를 만들지 않습니다.
+    # 이미지 전체를 하나의 음식 class로 분류하므로 probs.top1 값을 사용합니다.
+    results = model.predict(filepath)
+    prediction = results[0]
 
-    for box in results[0].boxes:
-        cls = int(box.cls[0])
-        detected_food = names[cls]
-        break
+    if prediction.probs is None:
+        return render_template(
+            "index.html",
+            result={
+                "image_path": filepath,
+                "error": "현재 모델이 classification 결과를 반환하지 않습니다. -cls 또는 classify로 학습한 best.pt 모델을 사용하세요.",
+            },
+        )
+
+    top1_index = int(prediction.probs.top1)
+    detected_food = prediction.names[top1_index]
 
     # =========================
     # 영양/GI 검색 및 추천
