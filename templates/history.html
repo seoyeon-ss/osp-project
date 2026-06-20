@@ -272,6 +272,18 @@
                         </div>
                     </div>
                     <div class="summary-card">
+                        <div class="summary-label">GI 상태</div>
+                        <div class="summary-value
+                        {% if day.gi_status == '양호' %}gi-low
+                        {% elif day.gi_status == '주의' %}gi-medium
+                        {% else %}gi-high{% endif %}">
+                        {{ day.gi_status }}
+                    </div>
+                    <div class="gi-message">
+                        {{ day.gi_message }}
+                        </div>
+                    </div>
+                    <div class="summary-card">
                         <div class="summary-label">총 칼로리</div>
                         <div class="summary-value">{{ day.total_calories }} kcal</div>
                     </div>

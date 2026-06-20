@@ -163,11 +163,25 @@ def load_intake_history():
         average_gi = round(group["gi"].astype(float).mean(), 1)
         total_calories = round(group["calories_kcal"].astype(float).sum(), 1)
 
+        if average_gi <= LOW_GI_MAX:
+            gi_status = "양호"
+            gi_message = "평균 GI가 낮은 편입니다."
+
+        elif average_gi <= MEDIUM_GI_MAX:
+            gi_status = "주의"
+            gi_message = "평균 GI가 보통 수준입니다."
+
+        else:
+            gi_status = "관리 필요"
+            gi_message = "고GI 음식 섭취가 많습니다."
+
         grouped_history.append({
             "date": date,
             "records": records,
             "average_gi": average_gi,
             "total_calories": total_calories,
+            "gi_status": gi_status,
+            "gi_message": gi_message,
         })
 
     return grouped_history
