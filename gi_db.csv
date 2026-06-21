@@ -1,22 +1,22 @@
 food,display_name,category,calories_kcal,carbohydrate_g,fat_g,protein_g,sugar_g,fiber_g,gi,alternative_food
-banana,¹Ù³ª³ª,fruit,89,22.8,0.3,1.1,12.2,2.6,51,apple
-tteokbokki,¶±ººÀÌ,korean_snack,210,43,2.5,4,7.5,1.5,80,oil_pasta
-gimbap,±è¹ä,korean_meal,170,27,4.5,5.5,2.5,2,65,
-kimchi,±èÄ¡,side_dish,25,4,0.5,1.5,1.5,2.4,15,
-fried_egg,°è¶õÈÄ¶óÀÌ,protein_food,196,0.9,15,13.6,0.4,0,0,
-apple,»ç°ú,fruit,52,13.8,0.2,0.3,10.4,2.4,36,
-ramen,¶ó¸é,noodle,436,61,16,10,3,2.5,73,konjac_noodle
-salad,»ø·¯µå,vegetable_meal,35,6,0.5,1.5,2.5,2.8,15,
-white_rice,Èò½Ò¹ä,grain,130,28.6,0.3,2.4,0.1,0.4,73,brown_rice
-sandwich,»÷µåÀ§Ä¡,meal,240,27,8,11,4,2.5,70,whole_grain_sandwich
-grilled_salmon,±¸¿î¿¬¾î,protein_food,206,0,12.4,22.1,0,0,0,
-waffle,¿ÍÇÃ,dessert,291,33,14,7.9,8,1.2,76,whole_wheat_waffle
-chocolate,ÃÊÄİ¸´,dessert,546,61,31,4.9,48,7,40,
-jajangmyeon,Â¥Àå¸é,noodle,175,28,5,5,4,1.8,70,buckwheat_poke
-sweet_potato,°í±¸¸¶,root_crop,86,20.1,0.1,1.6,4.2,3,54,
-oil_pasta,¿ÀÀÏÆÄ½ºÅ¸,noodle,180,25,6.5,5.5,1.5,1.8,50,
-whole_wheat_waffle,Åë¹Ğ¿ÍÇÃ,dessert,250,30,10,8.5,5,4,55,
-konjac_noodle,°ï¾à¸é,noodle,12,3,0,0.2,0,2,15,
-whole_grain_sandwich,Åë¹Ğ»÷µåÀ§Ä¡,meal,210,24,6,12,3,5,52,
-brown_rice,Çö¹Ì¹ä,grain,111,23,0.9,2.6,0.4,1.8,55,
-buckwheat_poke,¸Ş¹ĞÆ÷ÄÉ,meal,135,18,3.5,10,2,2.5,54,
+banana,ë°”ë‚˜ë‚˜,fruit,89,22.8,0.3,1.1,12.2,2.6,51,red apple
+tteokbokki,ë–¡ë³¶ì´,korean_snack,210,43,2.5,4,7.5,1.5,80,oil_pasta
+gimbap,ê¹€ë°¥,korean_meal,170,27,4.5,5.5,2.5,2,65,
+kimchi,ê¹€ì¹˜,side_dish,25,4,0.5,1.5,1.5,2.4,15,
+fried-egg,ê³„ë€í›„ë¼ì´,protein_food,196,0.9,15,13.6,0.4,0,0,
+red apple,ì‚¬ê³¼,fruit,52,13.8,0.2,0.3,10.4,2.4,36,
+ramen,ë¼ë©´,noodle,436,61,16,10,3,2.5,73,konjac_noodle
+salad,ìƒëŸ¬ë“œ,vegetable_meal,35,6,0.5,1.5,2.5,2.8,15,
+white rice,í°ìŒ€ë°¥,grain,130,28.6,0.3,2.4,0.1,0.4,73,brown_rice
+sandwich,ìƒŒë“œìœ„ì¹˜,meal,240,27,8,11,4,2.5,70,whole_grain_sandwich
+grilled salmon,êµ¬ìš´ ì—°ì–´,protein_food,206,0,12.4,22.1,0,0,0,
+waffle,ì™€í”Œ,dessert,291,33,14,7.9,8,1.2,76,whole_wheat_waffle
+chocolate,ì´ˆì½œë¦¿,dessert,546,61,31,4.9,48,7,40,
+jajangmyeon,ì§œì¥ë©´,noodle,175,28,5,5,4,1.8,70,buckwheat_poke
+sweetpotato,ê³ êµ¬ë§ˆ,root_crop,86,20.1,0.1,1.6,4.2,3,54,
+oil_pasta,ì˜¤ì¼ íŒŒìŠ¤íƒ€,noodle,180,25,6.5,5.5,1.5,1.8,50,
+whole_wheat_waffle,í†µë°€ ì™€í”Œ,dessert,250,30,10,8.5,5,4,55,
+konjac_noodle,ê³¤ì•½ë©´,noodle,12,3,0,0.2,0,2,15,
+whole_grain_sandwich,í†µë°€ ìƒŒë“œìœ„ì¹˜,meal,210,24,6,12,3,5,52,
+brown_rice,í˜„ë¯¸ë°¥,grain,111,23,0.9,2.6,0.4,1.8,55,
+buckwheat_poke,ë©”ë°€ í¬ì¼€,meal,135,18,3.5,10,2,2.5,54,

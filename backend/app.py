@@ -20,16 +20,23 @@ import history_manager
 # =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
 MODEL_PATH = BASE_DIR / "best.pt"
-UPLOAD_FOLDER = BASE_DIR / "static" / "uploads"
+UPLOAD_FOLDER = PROJECT_ROOT / "static" / "uploads"
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 YOLO_CONFIDENCE = 0.25
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=str(PROJECT_ROOT / "templates"),
+    static_folder=str(PROJECT_ROOT / "static"),
+)
 app.config["UPLOAD_FOLDER"] = str(UPLOAD_FOLDER)
 app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_SIZE
+app.config["MAX_FORM_MEMORY_SIZE"] = MAX_UPLOAD_SIZE
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
@@ -77,7 +84,14 @@ def save_camera_image(image_data: str) -> tuple[Path, str]:
     except ValueError as exc:
         raise ValueError("카메라 이미지 형식이 올바르지 않습니다.") from exc
 
-    if not header.startswith("data:image/"):
+    image_extensions = {
+        "data:image/png;base64": ".png",
+        "data:image/jpeg;base64": ".jpg",
+        "data:image/webp;base64": ".webp",
+    }
+    extension = image_extensions.get(header.lower())
+
+    if extension is None:
         raise ValueError("카메라 이미지 형식이 올바르지 않습니다.")
 
     try:
@@ -85,7 +99,7 @@ def save_camera_image(image_data: str) -> tuple[Path, str]:
     except (binascii.Error, ValueError) as exc:
         raise ValueError("카메라 이미지를 해석할 수 없습니다.") from exc
 
-    unique_name = f"{uuid.uuid4().hex}.png"
+    unique_name = f"{uuid.uuid4().hex}{extension}"
     full_path = UPLOAD_FOLDER / unique_name
     full_path.write_bytes(binary_data)
 
@@ -282,4 +296,4 @@ def file_too_large(_error):
 
 if __name__ == "__main__":
     # 세 파일 중 app.py만 실행합니다.
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5050, debug=False, use_reloader=False)

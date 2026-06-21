@@ -11,15 +11,14 @@ import pandas as pd
 # =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
-GI_DB_PATH = BASE_DIR / "gi_db.csv"
+GI_DB_PATH = BASE_DIR.parent / "gi_db.csv"
 
 # YOLO의 클래스 이름과 CSV의 food 값이 다를 때 연결합니다.
 # normalize_food_name()을 거친 이름을 왼쪽에 작성합니다.
 FOOD_NAME_ALIASES = {
-    "white_rice": "rice",
-    "steamed_rice": "rice",
-    "red_apple": "apple",
-    "hamburger": "burger",
+    "rice": "white_rice",
+    "steamed_rice": "white_rice",
+    "apple": "red_apple",
     "green_salad": "salad",
 }
 
