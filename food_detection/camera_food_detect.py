@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 # YOLO 모델 로드
-model = YOLO("yolo12n.pt")
+model = YOLO("backend/best.pt")
 
 # 웹캠 실행
 cap = cv2.VideoCapture(0)
