@@ -81,11 +81,21 @@ def load_food_database() -> pd.DataFrame:
         raise ValueError(f"GI 데이터 파일에 다음 열이 없습니다: {missing_text}")
 
     df = df.copy()
+
+    # alternative_reason 컬럼이 없는 기존 CSV도 오류 없이 사용할 수 있도록 빈 열을 추가합니다.
+    if "alternative_reason" not in df.columns:
+        df["alternative_reason"] = None
+
     df["food"] = df["food"].apply(normalize_food_name)
     df["alternative_food"] = df["alternative_food"].apply(
         lambda value: None
         if pd.isna(value) or str(value).strip() == ""
         else normalize_food_name(value)
+    )
+    df["alternative_reason"] = df["alternative_reason"].apply(
+        lambda value: None
+        if pd.isna(value) or str(value).strip() == ""
+        else str(value).strip()
     )
 
     for column in NUMERIC_COLUMNS:
@@ -190,13 +200,15 @@ def calculate_macro_ratio(food: dict[str, Any]) -> dict[str, float]:
 
 
 def get_recommendation(food: dict[str, Any]) -> dict[str, Any] | None:
-    """GI가 70 이상인 음식에 한해 CSV의 대체음식을 조회합니다."""
+    """GI가 70 이상인 음식에 한해 CSV의 대체음식과 추천 이유를 조회합니다."""
     gi = float(food["gi"])
 
     if gi < 70:
         return None
 
     alternative_food = food.get("alternative_food")
+    alternative_reason = food.get("alternative_reason")
+
     if not alternative_food:
         return None
 
@@ -205,6 +217,12 @@ def get_recommendation(food: dict[str, Any]) -> dict[str, Any] | None:
         return None
 
     recommendation["macro_ratio"] = calculate_macro_ratio(recommendation)
+    recommendation["reason"] = (
+        str(alternative_reason).strip()
+        if alternative_reason is not None and str(alternative_reason).strip() != ""
+        else None
+    )
+
     return recommendation
 
 

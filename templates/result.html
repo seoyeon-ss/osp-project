@@ -128,6 +128,13 @@
             background-color: #eef8ef;
         }
 
+        .recommend-reason {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 12px;
+            line-height: 1.6;
+        }
+
         .error {
             color: #c62828;
             font-weight: bold;
@@ -246,6 +253,13 @@
                     비슷한 음식 중 GI 지수가 낮은
                     <strong>{{ result.recommendation.display_name }}</strong>을/를 대체 음식으로 추천합니다.
                 </p>
+
+                {% if result.recommendation.reason %}
+                <p class="recommend-reason">
+                    <strong>추천 이유:</strong>
+                    {{ result.recommendation.reason }}
+                </p>
+                {% endif %}
 
                 <div class="grid">
                     <div class="item">

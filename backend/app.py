@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import traceback
 import base64
 import binascii
 import uuid
@@ -264,13 +265,17 @@ def predict():
         return render_template("result.html", result=result), 400
 
     except Exception as exc:
+        print("===== 실제 오류 발생 =====")
+        print(exc)
+        traceback.print_exc()
+
         result = {
             "image_path": image_path_for_html,
             "error": "분석 중 오류가 발생했습니다.",
             "error_message": str(exc),
             "retry": True,
         }
-        return render_template("result.html", result=result), 500
+    return render_template("result.html", result=result), 500
 
 
 @app.get("/history")
@@ -296,4 +301,4 @@ def file_too_large(_error):
 
 if __name__ == "__main__":
     # 세 파일 중 app.py만 실행합니다.
-    app.run(host="0.0.0.0", port=5050, debug=False, use_reloader=False)
+    app.run(host="0.0.0.0", port=5050, debug=True, use_reloader=False)

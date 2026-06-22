@@ -1,22 +1,10 @@
-food,display_name,category,calories_kcal,carbohydrate_g,fat_g,protein_g,sugar_g,fiber_g,gi,alternative_food
-banana,바나나,fruit,89,22.8,0.3,1.1,12.2,2.6,51,red apple
-tteokbokki,떡볶이,korean_snack,210,43,2.5,4,7.5,1.5,80,oil_pasta
-gimbap,김밥,korean_meal,170,27,4.5,5.5,2.5,2,65,
-kimchi,김치,side_dish,25,4,0.5,1.5,1.5,2.4,15,
-fried-egg,계란후라이,protein_food,196,0.9,15,13.6,0.4,0,0,
-red apple,사과,fruit,52,13.8,0.2,0.3,10.4,2.4,36,
-ramen,라면,noodle,436,61,16,10,3,2.5,73,konjac_noodle
-salad,샐러드,vegetable_meal,35,6,0.5,1.5,2.5,2.8,15,
-white rice,흰쌀밥,grain,130,28.6,0.3,2.4,0.1,0.4,73,brown_rice
-sandwich,샌드위치,meal,240,27,8,11,4,2.5,70,whole_grain_sandwich
-grilled salmon,구운 연어,protein_food,206,0,12.4,22.1,0,0,0,
-waffle,와플,dessert,291,33,14,7.9,8,1.2,76,whole_wheat_waffle
-chocolate,초콜릿,dessert,546,61,31,4.9,48,7,40,
-jajangmyeon,짜장면,noodle,175,28,5,5,4,1.8,70,buckwheat_poke
-sweetpotato,고구마,root_crop,86,20.1,0.1,1.6,4.2,3,54,
-oil_pasta,오일 파스타,noodle,180,25,6.5,5.5,1.5,1.8,50,
-whole_wheat_waffle,통밀 와플,dessert,250,30,10,8.5,5,4,55,
-konjac_noodle,곤약면,noodle,12,3,0,0.2,0,2,15,
-whole_grain_sandwich,통밀 샌드위치,meal,210,24,6,12,3,5,52,
-brown_rice,현미밥,grain,111,23,0.9,2.6,0.4,1.8,55,
-buckwheat_poke,메밀 포케,meal,135,18,3.5,10,2,2.5,54,
+﻿food,display_name,category,calories_kcal,carbohydrate_g,fat_g,protein_g,sugar_g,fiber_g,gi,alternative_food,alternative_reason
+pizza,피자,meal,266,33.0,10.0,12.0,3.8,2.3,80,whole_grain_sandwich,통밀 샌드위치는 피자보다 GI가 낮고 식이섬유 함량이 높아 혈당 상승을 완만하게 하는 데 도움이 됩나다.
+burger,버거,meal,295,30.0,12.0,17.0,6.0,2.0,75,whole_grain_sandwich,통밀 샌드위치는 버거보다 GI가 낮고 지방 함량이 비교적 낮아 더 안정적인 식사 대안이 될 수 있습니다.
+sandwich,샌드위치,meal,240,27.0,7.0,11.0,4.0,3.0,70,whole_grain_sandwich,통밀 샌드위치는 일반 샌드위치보다 식이섬유 함량이 높아 혈당 상승 완화에 도움이 됩니다.
+rice,쌀밥,grain,168,36.0,0.3,2.7,0.1,0.4,73,brown_rice,현미밥은 쌀밥보다 GI가 낮고 식이섬유 함량이 높아 혈당 상승을 완만하게 하는 데 도움이 됩니다.
+apple,사과,fruit,52,14.0,0.2,0.3,10.4,2.4,36,,
+banana,바나나,fruit,89,23.0,0.3,1.1,12.2,2.6,51,,
+salad,샐러드,meal,80,6.0,3.0,2.0,2.0,3.0,15,,
+brown_rice,현미밥,grain,160,32.0,1.0,3.0,0.4,2.0,50,,
+whole_grain_sandwich,통밀 샌드위치,meal,210,24.0,6.0,12.0,3.0,5.0,52,,
