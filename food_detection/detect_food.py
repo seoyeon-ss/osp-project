@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import cv2
 
 # YOLO 모델 불러오기
-model = YOLO("yolo12n.pt")
+model = YOLO("backend/best.pt")
 
 # 이미지 예측
 results = model.predict(
